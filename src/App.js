@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import Banner from './Banner.png';
 import ClubLogo from './ClubLogo.png';
 import Placeholder from './Placeholder.jpg';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import './App.css';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import BigCalendar from 'react-big-calendar';
+import moment from 'moment';
+import events from 'events';
 
 class App extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      pageNumber: 0
+      pageNumber: 0,
+      localizer: BigCalendar.momentLocalizer(moment)
     }
     this.HomeButton = this.HomeButton.bind(this);
     this.AboutButton = this.AboutButton.bind(this);
@@ -30,6 +35,61 @@ class App extends Component {
   }
 
   render() {
+
+    const pageNumber = this.state.pageNumber;
+    let content;
+
+    if (pageNumber === 0) {
+      content =
+      <div className="Content">
+        1447 Bussman Hall Tuesday 12-2pm
+      <Carousel
+      showThumbs={false}
+      infiniteLoop={true}
+      width="45%"
+      autoPlay={true}
+      interval={3000}
+      transitionTime={350}
+      useKeyboardArrows={true}
+      >
+            <div>
+                <img src={Placeholder} />
+                <p className="legend">Designing the Webiste</p>
+            </div>
+            <div>
+                <img src={Placeholder} />
+                <p className="legend">Legend 2</p>
+            </div>
+            <div>
+                <img src={Placeholder} />
+                <p className="legend">Legend 3</p>
+            </div>
+      </Carousel>
+    </div>
+    }
+    if (pageNumber === 1) {
+      content =
+      <div className="column">
+      To promote a culture of learning within the Computer Science community of
+      Santa Rosa Junior College, and to encourage members to seek out
+      opportunities to expand their knowledge. The club’s goal is to create a
+      professional environment for people to collaborate with each other to
+      create innovative projects and gives students a chance to further explore
+      the vast field of Computer Science. We welcome anyone to join.
+      </div>
+    }
+    if (pageNumber === 2) {
+      content =
+      <div>
+        <BigCalendar
+        localizer={this.state.localizer}
+        events={[]}
+        startAccessor="start"
+        endAccessor="end"
+        />
+      </div>
+    }
+
     return (
       <div className="App">
 
@@ -47,33 +107,7 @@ class App extends Component {
         </div>
         </div>
 
-        <div className="Content">
-          1447 Bussman Hall Tuesday 12-2pm
-
-          <Carousel
-          showThumbs={false}
-          infiniteLoop={true}
-          width="45%"
-          autoPlay={true}
-          interval={3000}
-          transitionTime={350}
-          useKeyboardArrows={true}
-          >
-                <div>
-                    <img src={Placeholder} />
-                    <p className="legend">Designing the Webiste</p>
-                </div>
-                <div>
-                    <img src={Placeholder} />
-                    <p className="legend">Legend 2</p>
-                </div>
-                <div>
-                    <img src={Placeholder} />
-                    <p className="legend">Legend 3</p>
-                </div>
-          </Carousel>
-        </div>
-
+        {content}
 
         <div className="footer">
 
@@ -85,7 +119,6 @@ class App extends Component {
             <h2>Content</h2>
             clubE-mail@example.com
           </div>
-
 
         </div>
       </div>
